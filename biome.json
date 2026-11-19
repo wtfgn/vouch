@@ -1,0 +1,94 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": ["**", "!**/*.md"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended"
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["packages/core/src/**/*.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "fs",
+                      "node:fs",
+                      "fs/promises",
+                      "node:fs/promises",
+                      "net",
+                      "node:net",
+                      "http",
+                      "node:http",
+                      "https",
+                      "node:https",
+                      "http2",
+                      "node:http2",
+                      "dns",
+                      "node:dns",
+                      "tls",
+                      "node:tls",
+                      "child_process",
+                      "node:child_process",
+                      "worker_threads",
+                      "node:worker_threads",
+                      "os",
+                      "node:os"
+                    ],
+                    "message": "@vouch/core must stay pure: no I/O and no Node runtime builtins. Move this code to a boundary package (cli, registry, acquirer)."
+                  }
+                ]
+              }
+            },
+            "noProcessEnv": "error",
+            "noRestrictedGlobals": {
+              "level": "error",
+              "options": {
+                "deniedGlobals": {
+                  "fetch": "@vouch/core must not perform network I/O."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
