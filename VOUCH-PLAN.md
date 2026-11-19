@@ -837,7 +837,7 @@ Each decision below records the choice, the reasoning, the cost paid, the altern
 
 | # | Decision | Choice | Alternative rejected | Reversibility |
 |---|---|---|---|---|
-| D1 | Language / runtime | TypeScript on Node 22 | Rust, Haskell, OCaml | High (pure core) |
+| D1 | Language / runtime | TypeScript on Node ≥ 22 | Rust, Haskell, OCaml | High (pure core) |
 | D2 | Repo layout | pnpm workspace monorepo | polyrepo | High |
 | D3 | GraphQL parsing | `graphql-js` | hand-rolled, `graphql-tools` only | Low (it is the spec) |
 | D4 | OpenAPI parsing | `@redocly/openapi-core` | `swagger-parser` | High (behind an adapter) |
@@ -852,7 +852,7 @@ Each decision below records the choice, the reasoning, the cost paid, the altern
 | D13 | Release | Changesets | manual, semantic-release | High |
 | D14 | Errors / traces | Sentry + OpenTelemetry | Datadog, none | High |
 
-### 13.3 D1 — TypeScript on Node 22
+### 13.3 D1 — TypeScript on Node ≥ 22
 
 **Why.**
 
@@ -984,9 +984,10 @@ That is why the plan puts Lean/Rocq at the trust boundary (the certifier, and la
 
 ### 13.20 Development environment
 
-- Editor: VS Code or Zed, with the TypeScript and GraphQL extensions.
-- Runtime: Node 22 (LTS), pnpm 9.
-- Quality gate: `tsc --noEmit`, ESLint (with a custom rule banning `fs`/`net` imports from `core`), Prettier, Vitest.
+- Editor: Neovim — `ts_ls` for TypeScript; `conform.nvim` runs `biome-check` on save and `nvim-lint` runs `biomejs`, so the editor and CI share one tool. GraphQL LSP when the frontend lands.
+- Runtime: Node 26 (LTS) in development; Node ≥ 22.13 supported and enforced by `engines`; pnpm 12.
+- Quality gate: `tsc` (TypeScript 7 — build and typecheck), Biome (lint, format, import order; the `core`-purity rule banning `fs`/`net`/`http` lives in `biome.json`), Vitest.
+- Dependencies are installed when the feature that needs them lands: `graphql` (F0.5), `fast-check` (F1.8), `zod` (config), `picocolors` (F0.9), Changesets (first release), coverage (when a threshold exists).
 - CI: GitHub Actions, running on Node 22 and Node 24, plus a dogfood job that runs `vouch check` on Vouch's own API schema.
 - Local dev: `pnpm dev` runs the app against a dockerised Postgres; `pnpm test` needs no services at all.
 

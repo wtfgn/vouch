@@ -368,10 +368,11 @@ Deliberately **not** extensible: the certificate format (it is the contract), th
 
 | Rule | Mechanism |
 |---|---|
-| L0 must not import L1/L2 | `eslint-plugin-boundaries` + CI |
-| `core` must not import `fs`/`net`/`http` | `no-restricted-imports` |
-| `certify` must not import `diff`/`classify` | explicit forbidden-edge rule |
-| No `Date`/`Math.random` in `core` | `no-restricted-globals` |
+| L0 must not import L1/L2 | Biome `noRestrictedImports` overrides + CI |
+| `core` must not import `fs`/`net`/`http` | `noRestrictedImports` (implemented in `biome.json`) |
+| `certify` must not import `diff`/`classify` | `noRestrictedImports` override, once `certify` exists |
+| No `process.env`/`fetch` in `core` | `noProcessEnv` + `noRestrictedGlobals` (implemented) |
+| No `Date.now`/`Math.random` in `core` | review only; Biome has no member-access rule (a GritQL plugin is the fix) |
 | Public API is explicit | `exports` field + API extractor check |
 
 **Tests.**
