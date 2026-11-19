@@ -33,6 +33,10 @@ pnpm test
 
 Three tools, nothing else: **tsc** builds and type-checks, **Vitest** tests, **Biome** lints and formats. Biome is also what Neovim runs on save (`conform.nvim` → `biome-check`, `nvim-lint` → `biomejs`), so the editor and CI cannot disagree.
 
+## Workflow
+
+One branch per roadmap feature, merged with `--no-ff`. See [docs/GIT-WORKFLOW.md](./docs/GIT-WORKFLOW.md).
+
 ## Layout
 
 ```
